@@ -805,7 +805,7 @@ void AdsImpl::OnConversion(
   }
 
   account_->Deposit(conversion_queue_item.creative_instance_id,
-                    AdType::kUndefined,
+                    conversion_queue_item.ad_type,
                     ConfirmationType::kConversion);
 }
 
