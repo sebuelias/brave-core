@@ -778,6 +778,16 @@ Object.defineProperty(Config.prototype, 'defaultOptions', {
     if (this.use_goma && this.gomaServerHost) {
       env.CC_WRAPPER = path.join(this.depotToolsDir, '.cipd_bin', 'gomacc')
       env.GOMA_SERVER_HOST = this.gomaServerHost
+      if (process.platform === 'linux') {
+        if (this.gomaJValue > 100) {
+          this.gomaJValue = 100
+        }
+      }
+      else if (process.platform === 'darwin') {
+        if (this.gomaJValue > 48) {
+          this.gomaJValue = 48
+        }
+      }
       console.log('using goma with j value of ' + this.gomaJValue + ' at ' + this.gomaServerHost)
     } else if (this.sccache) {
       env.CC_WRAPPER = this.sccache
