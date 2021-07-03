@@ -51,6 +51,7 @@ void BraveWalletService::RegisterProfilePrefs(PrefRegistrySimple* registry) {
   registry->RegisterBooleanPref(kShowWalletIconOnToolbar, true);
   registry->RegisterBooleanPref(kBraveWalletBackupComplete, false);
   registry->RegisterTimePref(kBraveWalletLastUnlockTime, base::Time());
+  registry->RegisterStringPref(kBraveWalletAccountNames, "Account 1");
 }
 
 brave_wallet::EthJsonRpcController* BraveWalletService::rpc_controller() const {
@@ -72,6 +73,14 @@ brave_wallet::AssetRatioController* BraveWalletService::asset_ratio_controller()
 
 brave_wallet::SwapController* BraveWalletService::swap_controller() const {
   return swap_controller_.get();
+}
+
+std::string BraveWalletService::WalletAccountNames() const {
+  return prefs_->GetString(kBraveWalletAccountNames);
+}
+
+void BraveWalletService::UpdateAccountNames(const std::string& accountNames) {
+  prefs_->SetString(kBraveWalletAccountNames, accountNames);
 }
 
 bool BraveWalletService::IsWalletBackedUp() const {

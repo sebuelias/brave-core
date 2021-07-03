@@ -17,16 +17,18 @@ const defaultState: WalletState = {
   isWalletBackedUp: false,
   hasIncorrectPassword: false,
   accounts: [],
+  walletAccountNames: [],
   transactions: []
 }
 
 const reducer = createReducer<WalletState>({}, defaultState)
 
 reducer.on(WalletActions.initialized, (state: any, payload: InitializedPayloadType) => {
+  const accountNames = payload.walletAccountNames.split(',')
   const accounts = payload.accounts.map((address: string, idx: number) => {
     return {
       id: `${idx + 1}`,
-      name: `Account ${idx + 1}`,
+      name: accountNames[idx],
       address,
       balance: 0,
       fiatBalance: '0',
@@ -42,7 +44,8 @@ reducer.on(WalletActions.initialized, (state: any, payload: InitializedPayloadTy
     isWalletLocked: payload.isWalletLocked,
     favoriteApps: payload.favoriteApps,
     accounts,
-    isWalletBackedUp: payload.isWalletBackedUp
+    isWalletBackedUp: payload.isWalletBackedUp,
+    walletAccountNames: accountNames
   }
 })
 
