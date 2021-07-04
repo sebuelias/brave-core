@@ -533,8 +533,7 @@ void Contribution::TransferFunds(
   }
 
   if (wallet_type == constant::kWalletGemini) {
-    ledger_->gemini()->TransferFunds(transaction.amount, destination,
-                                       callback);
+    ledger_->gemini()->TransferFunds(transaction.amount, destination, callback);
     return;
   }
 

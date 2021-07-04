@@ -35,8 +35,7 @@ class LedgerImpl;
 namespace endpoint {
 namespace promotion {
 
-using PostClaimGeminiCallback =
-    std::function<void(const type::Result result)>;
+using PostClaimGeminiCallback = std::function<void(const type::Result result)>;
 
 class PostClaimGemini {
  public:

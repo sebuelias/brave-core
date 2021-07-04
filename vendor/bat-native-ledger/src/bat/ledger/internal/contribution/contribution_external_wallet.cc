@@ -189,7 +189,7 @@ void ContributionExternalWallet::OnServerPublisherInfo(
       break;
     case type::ContributionProcessor::GEMINI:
       ledger_->gemini()->StartContribution(contribution_id, std::move(info),
-                                             amount, start_callback);
+                                           amount, start_callback);
       break;
     default:
       NOTREACHED();

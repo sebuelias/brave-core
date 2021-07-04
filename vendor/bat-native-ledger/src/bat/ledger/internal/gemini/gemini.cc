@@ -9,13 +9,13 @@
 #include "base/strings/string_number_conversions.h"
 #include "base/strings/stringprintf.h"
 #include "bat/ledger/global_constants.h"
+#include "bat/ledger/internal/common/time_util.h"
+#include "bat/ledger/internal/endpoint/gemini/gemini_server.h"
 #include "bat/ledger/internal/gemini/gemini.h"
 #include "bat/ledger/internal/gemini/gemini_authorization.h"
 #include "bat/ledger/internal/gemini/gemini_transfer.h"
 #include "bat/ledger/internal/gemini/gemini_util.h"
 #include "bat/ledger/internal/gemini/gemini_wallet.h"
-#include "bat/ledger/internal/common/time_util.h"
-#include "bat/ledger/internal/endpoint/gemini/gemini_server.h"
 #include "bat/ledger/internal/ledger_impl.h"
 #include "bat/ledger/internal/logging/event_log_keys.h"
 #include "brave_base/random.h"
@@ -53,9 +53,9 @@ void Gemini::Initialize() {
 }
 
 void Gemini::StartContribution(const std::string& contribution_id,
-                                 type::ServerPublisherInfoPtr info,
-                                 const double amount,
-                                 ledger::ResultCallback callback) {
+                               type::ServerPublisherInfoPtr info,
+                               const double amount,
+                               ledger::ResultCallback callback) {
   if (!info) {
     BLOG(0, "Publisher info is null");
     ContributionCompleted(type::Result::LEDGER_ERROR, "", contribution_id,
@@ -78,11 +78,11 @@ void Gemini::StartContribution(const std::string& contribution_id,
 }
 
 void Gemini::ContributionCompleted(const type::Result result,
-                                     const std::string& transaction_id,
-                                     const std::string& contribution_id,
-                                     const double fee,
-                                     const std::string& publisher_key,
-                                     ledger::ResultCallback callback) {
+                                   const std::string& transaction_id,
+                                   const std::string& contribution_id,
+                                   const double fee,
+                                   const std::string& publisher_key,
+                                   ledger::ResultCallback callback) {
   if (result == type::Result::LEDGER_OK) {
     SaveTransferFee(contribution_id, fee);
 
@@ -136,8 +136,8 @@ void Gemini::OnFetchBalance(const type::Result result,
 }
 
 void Gemini::TransferFunds(const double amount,
-                             const std::string& address,
-                             client::TransactionCallback callback) {
+                           const std::string& address,
+                           client::TransactionCallback callback) {
   Transaction transaction;
   transaction.address = address;
   transaction.amount = amount;
@@ -209,8 +209,8 @@ void Gemini::StartTransferFeeTimer(const std::string& fee_id,
 
   transfer_fee_timers_[fee_id].Start(
       FROM_HERE, delay,
-      base::BindOnce(&Gemini::OnTransferFeeTimerElapsed,
-                     base::Unretained(this), fee_id, attempts));
+      base::BindOnce(&Gemini::OnTransferFeeTimerElapsed, base::Unretained(this),
+                     fee_id, attempts));
 }
 
 void Gemini::OnTransferFeeCompleted(const type::Result result,
@@ -233,8 +233,8 @@ void Gemini::OnTransferFeeCompleted(const type::Result result,
 void Gemini::TransferFee(const std::string& contribution_id,
                          const double amount,
                          const int attempts) {
-  auto transfer_callback = std::bind(&Gemini::OnTransferFeeCompleted, this,
-                                     _1, _2, contribution_id, attempts);
+  auto transfer_callback = std::bind(&Gemini::OnTransferFeeCompleted, this, _1,
+                                     _2, contribution_id, attempts);
 
   Transaction transaction;
   transaction.address = GetFeeAddress();

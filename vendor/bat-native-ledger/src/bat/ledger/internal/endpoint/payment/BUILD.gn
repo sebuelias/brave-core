@@ -53,13 +53,13 @@ source_set("payment") {
     "post_transaction_uphold/post_transaction_uphold.cc",
     "post_transaction_uphold/post_transaction_uphold.h",
     "post_votes/post_votes.cc",
-    "post_votes/post_votes.h"
+    "post_votes/post_votes.h",
   ]
 
   deps = [
     "//base",
     "//brave/components/challenge_bypass_ristretto",
     "//brave/vendor/bat-native-ledger:headers",
-    "//net:net"
+    "//net:net",
   ]
 }

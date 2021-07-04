@@ -783,8 +783,7 @@ class PageWallet extends React.Component<Props, State> {
   }
 
   generateExternalWalletProviderList = (walletProviders: string[]) => {
-    let externalWalletProviders = walletProviders.map((type) => ({ type, name: utils.getWalletProviderName(type) }))
-    return externalWalletProviders
+    return walletProviders.map((type) => ({ type, name: utils.getWalletProviderName(type) }))
   }
 
   render () {

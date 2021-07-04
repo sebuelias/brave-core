@@ -26,12 +26,9 @@ const char kUpholdDestinationStaging[] =
 const char kUpholdDestinationProduction[] =
     "5d4be2ad-1c65-4802-bea1-e0f3a3a487cb";
 
-
 // To-Do(@jumde) - Need the destination addresses for gemini
-const char kGeminiDestinationDev[] =
-    "60c0f891-5f98-4bee-a35d-9f834eaebfc0";
-const char kGeminiDestinationStaging[] =
-    "60c0f891-5f98-4bee-a35d-9f834eaebfc0";
+const char kGeminiDestinationDev[] = "60c0f891-5f98-4bee-a35d-9f834eaebfc0";
+const char kGeminiDestinationStaging[] = "60c0f891-5f98-4bee-a35d-9f834eaebfc0";
 const char kGeminiDestinationProduction[] =
     "60c0f891-5f98-4bee-a35d-9f834eaebfc0";
 

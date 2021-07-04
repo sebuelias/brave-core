@@ -201,9 +201,8 @@ void SKUTransaction::SendExternalTransaction(
       return;
     }
     case type::SKUTransactionType::GEMINI: {
-      payment_server_->post_transaction_gemini()->Request(
-          transaction,
-          url_callback);
+      payment_server_->post_transaction_gemini()->Request(transaction,
+                                                          url_callback);
       return;
     }
   }

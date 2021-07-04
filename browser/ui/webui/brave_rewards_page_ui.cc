@@ -483,12 +483,14 @@ void RewardsDOMHandler::RegisterMessages() {
   web_ui()->RegisterMessageCallback("brave_rewards.saveOnboardingResult",
       base::BindRepeating(&RewardsDOMHandler::SaveOnboardingResult,
       base::Unretained(this)));
-  web_ui()->RegisterMessageCallback("brave_rewards.getExternalWalletProviders",
+  web_ui()->RegisterMessageCallback(
+      "brave_rewards.getExternalWalletProviders",
       base::BindRepeating(&RewardsDOMHandler::GetExternalWalletProviders,
-      base::Unretained(this)));
-  web_ui()->RegisterMessageCallback("brave_rewards.setExternalWalletType",
+                          base::Unretained(this)));
+  web_ui()->RegisterMessageCallback(
+      "brave_rewards.setExternalWalletType",
       base::BindRepeating(&RewardsDOMHandler::SetExternalWalletType,
-      base::Unretained(this)));
+                          base::Unretained(this)));
 }
 
 void RewardsDOMHandler::Init() {
@@ -582,8 +584,7 @@ void RewardsDOMHandler::GetAutoContributeProperties(
                      weak_factory_.GetWeakPtr()));
 }
 
-void RewardsDOMHandler::SetExternalWalletType(
-    const base::ListValue* args) {
+void RewardsDOMHandler::SetExternalWalletType(const base::ListValue* args) {
   CHECK_EQ(1U, args->GetSize());
   if (!rewards_service_)
     return;
@@ -591,9 +592,9 @@ void RewardsDOMHandler::SetExternalWalletType(
   AllowJavascript();
   const std::string wallet_type = args->GetList()[0].GetString();
   rewards_service_->SetExternalWalletType(wallet_type);
-  rewards_service_->GetExternalWallet(base::BindOnce(
-      &RewardsDOMHandler::OnExternalWalletSelected,
-      weak_factory_.GetWeakPtr()));
+  rewards_service_->GetExternalWallet(
+      base::BindOnce(&RewardsDOMHandler::OnExternalWalletSelected,
+                     weak_factory_.GetWeakPtr()));
 }
 
 void RewardsDOMHandler::OnGetAutoContributeProperties(
@@ -1604,8 +1605,7 @@ void RewardsDOMHandler::GetExternalWallet(const base::ListValue* args) {
 
   AllowJavascript();
   rewards_service_->GetExternalWallet(base::BindOnce(
-      &RewardsDOMHandler::OnGetExternalWallet,
-      weak_factory_.GetWeakPtr()));
+      &RewardsDOMHandler::OnGetExternalWallet, weak_factory_.GetWeakPtr()));
 }
 
 base::Value RewardsDOMHandler::ExternalWalletToJSON(

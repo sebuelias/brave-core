@@ -71,8 +71,7 @@ type::Result PostTransaction::ParseBody(const std::string& body,
     return type::Result::LEDGER_ERROR;
   }
 
-  const auto* transfer_status_str =
-      dictionary->FindStringKey("result");
+  const auto* transfer_status_str = dictionary->FindStringKey("result");
   if (!transfer_status_str) {
     BLOG(0, "Missing transfer status");
     return type::Result::LEDGER_ERROR;
@@ -84,10 +83,9 @@ type::Result PostTransaction::ParseBody(const std::string& body,
   return type::Result::LEDGER_OK;
 }
 
-void PostTransaction::Request(
-    const std::string& token,
-    const ::ledger::gemini::Transaction& transaction,
-    PostTransactionCallback callback) {
+void PostTransaction::Request(const std::string& token,
+                              const ::ledger::gemini::Transaction& transaction,
+                              PostTransactionCallback callback) {
   auto url_callback =
       std::bind(&PostTransaction::OnRequest, this, _1, callback);
 
@@ -100,8 +98,8 @@ void PostTransaction::Request(
   request->method = type::UrlMethod::POST;
   request->headers.push_back("X-GEMINI-PAYLOAD: " + payload);
 
-  BLOG(0, "Initiating gemini transaction to: " << transaction.address << "for "\
-      << transaction.amount);
+  BLOG(0, "Initiating gemini transaction to: " << transaction.address << "for "
+                                               << transaction.amount);
 
   ledger_->LoadURL(std::move(request), url_callback);
 }
@@ -112,11 +110,8 @@ void PostTransaction::OnRequest(const type::UrlResponse& response,
 
   type::Result result = CheckStatusCode(response.status_code);
 
-  BLOG_IF(0,
-          result != type::Result::LEDGER_OK,
-          "Gemini transaction failed");
-  BLOG_IF(0,
-          result == type::Result::LEDGER_OK,
+  BLOG_IF(0, result != type::Result::LEDGER_OK, "Gemini transaction failed");
+  BLOG_IF(0, result == type::Result::LEDGER_OK,
           "Gemini transaction successful");
 
   if (result != type::Result::LEDGER_OK) {

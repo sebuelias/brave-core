@@ -20,8 +20,7 @@ using std::placeholders::_3;
 namespace ledger {
 namespace gemini {
 
-GeminiWallet::GeminiWallet(LedgerImpl* ledger)
-    : ledger_(ledger) {}
+GeminiWallet::GeminiWallet(LedgerImpl* ledger) : ledger_(ledger) {}
 
 GeminiWallet::~GeminiWallet() = default;
 

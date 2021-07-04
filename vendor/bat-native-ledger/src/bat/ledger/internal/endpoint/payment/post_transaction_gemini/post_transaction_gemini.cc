@@ -19,17 +19,16 @@ namespace ledger {
 namespace endpoint {
 namespace payment {
 
-PostTransactionGemini::PostTransactionGemini(LedgerImpl* ledger):
-    ledger_(ledger) {
+PostTransactionGemini::PostTransactionGemini(LedgerImpl* ledger)
+    : ledger_(ledger) {
   DCHECK(ledger_);
 }
 
 PostTransactionGemini::~PostTransactionGemini() = default;
 
 std::string PostTransactionGemini::GetUrl(const std::string& order_id) {
-  const std::string path = base::StringPrintf(
-      "/v1/orders/%s/transactions/gemini",
-      order_id.c_str());
+  const std::string path =
+      base::StringPrintf("/v1/orders/%s/transactions/gemini", order_id.c_str());
 
   return GetServerUrl(path);
 }
@@ -37,9 +36,8 @@ std::string PostTransactionGemini::GetUrl(const std::string& order_id) {
 std::string PostTransactionGemini::GeneratePayload(
     const type::SKUTransaction& transaction) {
   base::Value body(base::Value::Type::DICTIONARY);
-  body.SetStringKey(
-      "externalTransactionId",
-      transaction.external_transaction_id);
+  body.SetStringKey("externalTransactionId",
+                    transaction.external_transaction_id);
   body.SetStringKey("kind", "gemini");
 
   std::string json;
@@ -76,36 +74,30 @@ type::Result PostTransactionGemini::CheckStatusCode(const int status_code) {
   return type::Result::LEDGER_OK;
 }
 
-void PostTransactionGemini::Request(
-    const type::SKUTransaction& transaction,
-    PostTransactionGeminiCallback callback) {
-  auto url_callback = std::bind(&PostTransactionGemini::OnRequest,
-      this,
-      _1,
-      callback);
+void PostTransactionGemini::Request(const type::SKUTransaction& transaction,
+                                    PostTransactionGeminiCallback callback) {
+  auto url_callback =
+      std::bind(&PostTransactionGemini::OnRequest, this, _1, callback);
 
   auto request = type::UrlRequest::New();
   request->url = GetUrl(transaction.order_id);
   request->content = GeneratePayload(transaction);
   request->content_type = "application/json; charset=utf-8";
   request->method = type::UrlMethod::POST;
-  BLOG(0, "Initiating gemini transaction to: " \
-          << transaction.external_transaction_id \
-          << "for " << transaction.amount);
+  BLOG(0, "Initiating gemini transaction to: "
+              << transaction.external_transaction_id << "for "
+              << transaction.amount);
 
   ledger_->LoadURL(std::move(request), url_callback);
 }
 
-void PostTransactionGemini::OnRequest(
-    const type::UrlResponse& response,
-    PostTransactionGeminiCallback callback) {
+void PostTransactionGemini::OnRequest(const type::UrlResponse& response,
+                                      PostTransactionGeminiCallback callback) {
   ledger::LogUrlResponse(__func__, response);
 
-  BLOG_IF(0,
-          CheckStatusCode(response.status_code) != type::Result::LEDGER_OK,
+  BLOG_IF(0, CheckStatusCode(response.status_code) != type::Result::LEDGER_OK,
           "Error creating gemini transaction on the payment server");
-  BLOG_IF(0,
-          CheckStatusCode(response.status_code) == type::Result::LEDGER_OK,
+  BLOG_IF(0, CheckStatusCode(response.status_code) == type::Result::LEDGER_OK,
           "Gemini transaction successful on the payment server");
 
   callback(CheckStatusCode(response.status_code));

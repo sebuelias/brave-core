@@ -58,8 +58,7 @@ class PostTransaction {
  private:
   std::string GetUrl();
 
-  std::string GeneratePayload(
-      const ::ledger::gemini::Transaction& transaction);
+  std::string GeneratePayload(const ::ledger::gemini::Transaction& transaction);
 
   type::Result ParseBody(const std::string& body,
                          std::string* transfer_id,

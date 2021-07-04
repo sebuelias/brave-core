@@ -77,7 +77,7 @@ TEST_F(GeminiPostBalanceTest, ServerOK) {
                   "availableForWithdrawal": "93677.40"
               }
             ])";
-          callback(response);
+            callback(response);
           }));
 
   balance_->Request("4c2b665ca060d912fec5c735c734859a06118cc8",

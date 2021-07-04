@@ -6,9 +6,9 @@
 #include <utility>
 
 #include "base/strings/stringprintf.h"
+#include "bat/ledger/internal/endpoint/gemini/gemini_server.h"
 #include "bat/ledger/internal/gemini/gemini_transfer.h"
 #include "bat/ledger/internal/gemini/gemini_util.h"
-#include "bat/ledger/internal/endpoint/gemini/gemini_server.h"
 #include "bat/ledger/internal/ledger_impl.h"
 #include "net/http/http_status_code.h"
 
@@ -26,7 +26,7 @@ GeminiTransfer::GeminiTransfer(LedgerImpl* ledger)
 GeminiTransfer::~GeminiTransfer() = default;
 
 void GeminiTransfer::Start(const Transaction& transaction,
-                             client::TransactionCallback callback) {
+                           client::TransactionCallback callback) {
   auto wallet = GetWallet(ledger_);
   if (!wallet) {
     BLOG(0, "Wallet is null");
@@ -36,15 +36,13 @@ void GeminiTransfer::Start(const Transaction& transaction,
 
   auto url_callback =
       std::bind(&GeminiTransfer::OnCreateTransaction, this, _1, _2, callback);
-  gemini_server_->post_transaction()->Request(wallet->token,
-                                              transaction,
+  gemini_server_->post_transaction()->Request(wallet->token, transaction,
                                               url_callback);
 }
 
-void GeminiTransfer::OnCreateTransaction(
-    const type::Result result,
-    const std::string& id,
-    client::TransactionCallback callback) {
+void GeminiTransfer::OnCreateTransaction(const type::Result result,
+                                         const std::string& id,
+                                         client::TransactionCallback callback) {
   if (result == type::Result::EXPIRED_TOKEN) {
     ledger_->gemini()->DisconnectWallet();
     callback(type::Result::EXPIRED_TOKEN, "");

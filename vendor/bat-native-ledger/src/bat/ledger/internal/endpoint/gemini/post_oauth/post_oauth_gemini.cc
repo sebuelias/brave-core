@@ -11,8 +11,8 @@
 #include "base/json/json_reader.h"
 #include "base/json/json_writer.h"
 #include "base/strings/stringprintf.h"
-#include "bat/ledger/internal/gemini/gemini_util.h"
 #include "bat/ledger/internal/endpoint/gemini/gemini_utils.h"
+#include "bat/ledger/internal/gemini/gemini_util.h"
 #include "bat/ledger/internal/ledger_impl.h"
 
 using std::placeholders::_1;
@@ -49,8 +49,7 @@ std::string PostOauth::GeneratePayload(const std::string& external_account_id,
   return payload;
 }
 
-type::Result PostOauth::ParseBody(const std::string& body,
-                                  std::string* token) {
+type::Result PostOauth::ParseBody(const std::string& body, std::string* token) {
   DCHECK(token);
 
   base::Optional<base::Value> value = base::JSONReader::Read(body);

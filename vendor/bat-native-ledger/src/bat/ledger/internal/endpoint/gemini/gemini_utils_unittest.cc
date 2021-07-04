@@ -5,8 +5,8 @@
 
 #include <string>
 
-#include "bat/ledger/internal/endpoint/gemini/gemini_utils.h"
 #include "bat/ledger/global_constants.h"
+#include "bat/ledger/internal/endpoint/gemini/gemini_utils.h"
 #include "bat/ledger/ledger.h"
 #include "net/http/http_status_code.h"
 #include "testing/gtest/include/gtest/gtest.h"

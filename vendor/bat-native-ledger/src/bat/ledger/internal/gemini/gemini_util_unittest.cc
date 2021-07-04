@@ -8,8 +8,8 @@
 
 #include "base/test/task_environment.h"
 #include "bat/ledger/global_constants.h"
-#include "bat/ledger/internal/gemini/gemini_util.h"
 #include "bat/ledger/internal/common/random_util.h"
+#include "bat/ledger/internal/gemini/gemini_util.h"
 #include "bat/ledger/internal/ledger_client_mock.h"
 #include "bat/ledger/internal/ledger_impl_mock.h"
 #include "bat/ledger/internal/state/state_keys.h"
@@ -22,7 +22,6 @@ using ::testing::_;
 
 namespace ledger {
 namespace gemini {
-
 
 class GeminiUtilTest : public testing::Test {
  private:
@@ -80,8 +79,7 @@ TEST_F(GeminiUtilTest, GetFeeAddress) {
 TEST_F(GeminiUtilTest, GetAuthorizeUrl) {
   // production
   ledger::_environment = type::Environment::PRODUCTION;
-  std::string result =
-      gemini::GetAuthorizeUrl("my-state");
+  std::string result = gemini::GetAuthorizeUrl("my-state");
   ASSERT_EQ(result, GEMINI_OAUTH_URL
             "/auth"
             "?client_id=" GEMINI_WALLET_CLIENT_ID

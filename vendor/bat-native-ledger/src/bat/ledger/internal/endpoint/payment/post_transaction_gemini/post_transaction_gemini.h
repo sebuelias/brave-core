@@ -46,17 +46,16 @@ class LedgerImpl;
 namespace endpoint {
 namespace payment {
 
-using PostTransactionGeminiCallback = std::function<void(
-    const type::Result result)>;
+using PostTransactionGeminiCallback =
+    std::function<void(const type::Result result)>;
 
 class PostTransactionGemini {
  public:
   explicit PostTransactionGemini(LedgerImpl* ledger);
   ~PostTransactionGemini();
 
-  void Request(
-      const type::SKUTransaction& transaction,
-      PostTransactionGeminiCallback callback);
+  void Request(const type::SKUTransaction& transaction,
+               PostTransactionGeminiCallback callback);
 
  private:
   std::string GetUrl(const std::string& order_id);
@@ -65,9 +64,8 @@ class PostTransactionGemini {
 
   type::Result CheckStatusCode(const int status_code);
 
-  void OnRequest(
-      const type::UrlResponse& response,
-      PostTransactionGeminiCallback callback);
+  void OnRequest(const type::UrlResponse& response,
+                 PostTransactionGeminiCallback callback);
 
   LedgerImpl* ledger_;  // NOT OWNED
 };
